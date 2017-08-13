@@ -35,9 +35,14 @@ about:
   license: BSD 3-Clause
   # license_file: No MANIFEST.in
   license_family: BSD
-  summary: 'Multiple dispatch'
+  summary: 'Multiple dispatch in Python'
+  description: |
+    This implementation of multiple dispatch is efficient, mostly complete,
+    performs static analysis to avoid conflicts, and provides optional
+    namespace support.
   doc_url: https://multiple-dispatch.readthedocs.io
   dev_url: https://github.com/mrocklin/multipledispatch/
+  doc_source_url: https://github.com/mrocklin/multipledispatch/blob/master/docs/source/index.rst
 
 extra:
   recipe-maintainers:
