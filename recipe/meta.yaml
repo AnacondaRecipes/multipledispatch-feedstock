@@ -1,5 +1,5 @@
 {% set name = "multipledispatch" %}
-{% set version = "0.6.0" %}
+{% set version = "1.0.0" %}
 {% set package = name + "-" + version + ".tar.gz" %}
 
 package:
@@ -8,12 +8,12 @@ package:
 
 source:
   fn: {{ package }}
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ package }}
-  sha256: a7ab1451fd0bf9b92cab3edbd7b205622fb767aeefb4fb536c2e3de9e0a38bea 
+  url: https://pypi.org/packages/source/m/multipledispatch/multipledispatch-1.0.0.tar.gz
+  sha256: 5c839915465c68206c3e9c473357908216c28383b425361e5d144594bf85a7e0
 
 build:
   number: 0
-  script: "{{ PYTHON }} -m pip install . --no-deps --ignore-installed --no-cache-dir -vvv"
+  script: {{ PYTHON }} -m pip install . --no-deps --ignore-installed --no-cache-dir -vvv
 
 requirements:
   host:
@@ -21,7 +21,6 @@ requirements:
     - python
     - six
     - setuptools
-
   run:
     - python
     - six
@@ -35,7 +34,7 @@ about:
   license: BSD 3-Clause
   # license_file: No MANIFEST.in
   license_family: BSD
-  summary: 'Multiple dispatch in Python'
+  summary: Multiple dispatch in Python
   description: |
     This implementation of multiple dispatch is efficient, mostly complete,
     performs static analysis to avoid conflicts, and provides optional
