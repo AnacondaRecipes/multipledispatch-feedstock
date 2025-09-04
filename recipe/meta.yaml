@@ -1,48 +1,60 @@
 {% set name = "multipledispatch" %}
-{% set version = "0.6.0" %}
-{% set package = name + "-" + version + ".tar.gz" %}
+{% set version = "1.0.0" %}
 
 package:
   name: {{ name }}
   version: {{ version }}
 
 source:
-  fn: {{ package }}
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ package }}
-  sha256: a7ab1451fd0bf9b92cab3edbd7b205622fb767aeefb4fb536c2e3de9e0a38bea 
+  - url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+    sha256: 5c839915465c68206c3e9c473357908216c28383b425361e5d144594bf85a7e0
+
+    # tests and tests data files
+  - url: https://github.com/mrocklin/{{ name }}/archive/refs/tags/{{ version }}.tar.gz
+    sha256: a9eb21390e5051ce28b2ee7acd02bb21885b9e2a4ce6e5fdbb1f338b48b54203
+    folder: gh_src
 
 build:
   number: 0
-  script: "{{ PYTHON }} -m pip install . --no-deps --ignore-installed --no-cache-dir -vvv"
+  skip: true  # [py<39]
+  script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation --ignore-installed --no-cache-dir -vv
 
 requirements:
   host:
     - pip
     - python
-    - six
     - setuptools
-
+    - wheel
   run:
     - python
-    - six
 
 test:
+  source_files:
+    - gh_src/multipledispatch/tests
+  requires:
+    - pip
+    - pytest
+    - pytest-benchmark
   imports:
     - multipledispatch
+    - multipledispatch.utils
+  commands:
+    - pip check
+    - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
+    - python -m pytest -o pythonpath=gh_src/multipledispatch gh_src/multipledispatch/tests -v
 
 about:
-  home: https://github.com/mrocklin/multipledispatch/
-  license: BSD 3-Clause
-  # license_file: No MANIFEST.in
+  home: https://github.com/mrocklin/multipledispatch
+  license: BSD-3-Clause
   license_family: BSD
-  summary: 'Multiple dispatch in Python'
+  license_file: LICENSE.txt
+  summary: Multiple dispatch in Python
   description: |
     This implementation of multiple dispatch is efficient, mostly complete,
     performs static analysis to avoid conflicts, and provides optional
     namespace support.
   doc_url: https://multiple-dispatch.readthedocs.io
-  dev_url: https://github.com/mrocklin/multipledispatch/
-  doc_source_url: https://github.com/mrocklin/multipledispatch/blob/master/docs/source/index.rst
+  dev_url: https://github.com/mrocklin/multipledispatch
 
 extra:
   recipe-maintainers:
